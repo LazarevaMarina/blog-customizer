@@ -18,6 +18,7 @@ import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 import clsx from 'clsx';
 import { Separator } from 'src/ui/separator';
 import { Select } from 'src/ui/select';
+import { Text } from 'src/ui/text';
 
 type ArticleParamsFormProps = {
 	setCurrentArticleState: (param: ArticleStateType) => void;
@@ -28,7 +29,7 @@ export const ArticleParamsForm = ({
 	currentArticleState,
 	setCurrentArticleState,
 }: ArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const [selectArticleState, setSelectArticleState] =
 		useState<ArticleStateType>(currentArticleState);
@@ -38,18 +39,18 @@ export const ArticleParamsForm = ({
 	};
 
 	useOutsideClickClose({
-		isOpen,
+		isMenuOpen,
 		rootRef,
-		onClose: () => setIsOpen(false),
-		onChange: setIsOpen,
+		onClose: () => setIsMenuOpen(false),
+		onChange: setIsMenuOpen,
 		event: 'mousedown',
 	})
 
 
 	return (
 		<div ref={rootRef}>
-			<ArrowButton isOpen={isOpen} onClick={setIsOpen} />
-			<aside className={clsx(styles.container, isOpen && styles.container_open)}>
+			<ArrowButton isOpen={isMenuOpen} onClick={setIsMenuOpen} />
+			<aside className={clsx(styles.container, isMenuOpen && styles.container_open)}>
 				<form 
 					className={styles.form} 
 					onSubmit={(evt) => { evt.preventDefault(); setCurrentArticleState(selectArticleState);}}
@@ -58,8 +59,10 @@ export const ArticleParamsForm = ({
 						setSelectArticleState(defaultArticleState);
 						setCurrentArticleState(defaultArticleState);
 					}}
-					style={{ gap: '50px' }}
 				>
+					<Text as="h2" size={22} weight={800} uppercase>
+						Задайте параметры
+					</Text>
 
 					<Select
   						title="Шрифт"
@@ -67,10 +70,6 @@ export const ArticleParamsForm = ({
   						selected={selectArticleState.fontFamilyOption}
   						onChange={(option: OptionType)  => handleChange('fontFamilyOption', option)}
 					/>
-
-					<label style={{ fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', color: '#000000' }}>
-						цвет шрифта
-					</label>
 
 					<Select
   						title="Цвет шрифта"
