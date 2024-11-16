@@ -15,6 +15,6 @@ export const ArrowButtonStory: Story = {
 		createElement(() => {
 			const [isOpen, setIsOpen] = useState(false);
 
-			return <ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />;
+			return <ArrowButton isOpen={true} onClick={() => console.log('close')} />;
 		}),
 };
